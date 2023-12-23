@@ -123,7 +123,7 @@ module.exports = function(name,app,config) {
                 //console.log("Invalid JWT token");
                return res.sendStatus(401);
             } else {
-                console.log(authData);
+                // console.log(authData);
                 //console.log(JSON.stringify(authData));
                 req.identity = authData;
                 //console.log("Token verified..");
