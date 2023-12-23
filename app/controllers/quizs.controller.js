@@ -1,5 +1,6 @@
 const Quizs = require('../models/quiz.model');
 const Questions = require('../models/questions.model');
+const Settings = require('../models/settings.model');
 
 module.exports = {
     //Create new Tags
@@ -16,6 +17,11 @@ module.exports = {
             })
         }
         try{
+        const settingsData = await Settings.find({ "status": "1" });
+        let passPercentage=60;
+        if(settingsData.length){
+            passPercentage = settingsData[0].passPercentage;
+        }
          const QuestionsArr = await Questions.find({status: true});
         //cross check answers
         for (const userResponse of answers) {
@@ -26,7 +32,7 @@ module.exports = {
         }
         let percentage = (points/QuestionsArr.length)*100;
 
-        percentage >= 60 ? pass="PASS" : pass="FAILED" ;
+        percentage >= passPercentage ? pass="PASS" : pass="FAILED" ;
         }catch(err){
             if(err){
                 res.send({
