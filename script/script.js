@@ -19,13 +19,13 @@ mongoose.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true
     //     });
     // });
 
-
+//pass-Admin@360
 const UserAdmin = new User({
-    username: 'Admin',
-    email:'admin@gmail.com',
-    firstName:'admin',
+    username: 'superAdmin',
+    email:'info.englearn360@gmail.com',
+    firstName:'super',
     lastName:'admin',
-    password:'$2a$10$0D5qLkpzaf1/GeSHO3Qw6OIKrFC6wgFU5HbnZDG7NELNUAOr.Nr7a',
+    password:'$2a$10$oSmRkY391JOLIpayNwlfaOMP17rZM3Q.UfOrf9dVSgP69zY5NyiFK',
     role: "SUPERADMIN"
 })
 UserAdmin.save();
