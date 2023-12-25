@@ -70,7 +70,7 @@ module.exports = {
                         firstName: userData.firstName,
                         lastName: userData.lastName,
                         verified: userData.verified ?? false,
-                        payment_status: userData.paymentStatus
+                        paymentStatus: userData.paymentStatus
                     }
                     //Creating jwt token
                     const token = jwt.sign(userRes, config.development.jwt.secret, {
