@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = require('../app/models/users.model.js');
 const bcrypt = require('bcryptjs');
-
+const Settings =  require('../app/models/settings.model.js');
 const dbConfig = require('../config/database.config')['production'];
 
 mongoose.connect(dbConfig.url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false }, (err) => {
@@ -30,3 +30,12 @@ const UserAdmin = new User({
     role: "SUPERADMIN"
 })
 UserAdmin.save();
+console.log("admin created");
+
+const SettingAdmin = new Settings({
+    feesAmount:100,
+    passPercentage:60
+})
+SettingAdmin.save();
+
+console.log("settings created");
