@@ -85,7 +85,7 @@ module.exports = {
             }
             let result = {
                 data: responseData,
-                timer:questionTimer
+                timer:questionTimer,
                 success: true
             }
             res.send(result);
