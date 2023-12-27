@@ -13,8 +13,9 @@ module.exports = {
         const feesAmount = req.body.feesAmount;
         const passPercentage = req.body.passPercentage;
         const questionTimer = req.body.questionTimer;
+        const questionCount = req.body.questionCount;
 
-        if (!feesAmount || !passPercentage) {
+        if (!feesAmount || !passPercentage|| questionTimer || questionCount) {
             res.send({
                 success: false,
                 message: 'body is Empty..!'
@@ -23,7 +24,8 @@ module.exports = {
         const newSettings = new Settings({
             feesAmount: feesAmount,
             passPercentage: passPercentage,
-            questionTimer: questionTimer
+            questionTimer: questionTimer,
+            questionCount: questionCount
         })
         Settings.create(newSettings, (err, data) => {
             if (err) {
@@ -69,7 +71,7 @@ module.exports = {
             }) 
         }
         let params = req.body;
-        if (!params.feesAmount || !params.passPercentage || !params.questionTimer) {
+        if (!params.feesAmount || !params.passPercentage || !params.questionTimer || !params.questionCount) {
             return res.send({
                 success: false,
                 message: "Nothing to update"
@@ -103,102 +105,4 @@ module.exports = {
                 });
         })
     },
-    // // Get All Tagss
-    // listTags: async (req, res, next) => {
-    //     let findObj={
-    //         status: 1 
-    //     }
-    //     if(req.query.name){
-    //         findObj.name = { $regex: req.query.name }
-    //     }
-    //     await Tags.find(findObj).exec( (err, data) => {
-
-    //         if (err || data.length == 0) {
-    //             return res.send({
-    //                 success: false,
-    //                 message: "No Tagss founded..!",
-    //                 error: err ? err : "No active Tagss data in db"
-    //             })
-    //         }
-
-    //         let result = {
-    //             data: data,
-    //             success: true
-    //         }
-    //         res.send(result);
-    //     })
-    // },
-
-    // //Update Tags
-    // updateTags: async (req, res, next) => {
-    //     let id = req.params.id;
-    //     let params = req.body;
-    //     if (!params.name) {
-    //         return res.send({
-    //             success: false,
-    //             message: "Nothing to update"
-    //         })
-    //     }
-    //     let update = {}
-
-    //     update.name = params.name ? params.name : null;
-               
-    //     await Tags.find({ "_id": id, "status": "1" },async (err, data) => {
-    //         if (err || data.length == 0) {
-    //             return res.send({
-    //                 success: false,
-    //                 message: "Tags Not founded with this TagsId"
-    //             })
-    //         }
-    //         //if Tags Existing
-    //         await Tags.findByIdAndUpdate(id,
-    //             {
-    //                 $set: update
-    //             }, { new: true },
-    //             (err, data) => {
-    //                 if (err || !data) {
-    //                     return res.send({
-    //                         success: false,
-    //                         message: "Tags Updation failed..!"
-    //                     })
-    //                 }
-    //                 return res.send({
-    //                     success: true,
-    //                     message: "Tags Updated successfully"
-    //                 })
-    //             });
-    //     })
-    // },
-    // //Delete Tags
-    // deleteTags: async (req, res, next) => {
-    //     let id = req.params.id;
-    //     let update = {
-    //         status: 0
-    //     }
-    //     await Tags.find({ "_id": id, "status": "1" },async (err, data) => {
-    //         if (err || data.length == 0) {
-    //             return res.send({
-    //                 success: false,
-    //                 message: "Tags Not founded with this TagsId"
-    //             })
-    //         }
-    //         await Tags.findByIdAndUpdate(id,
-    //             {
-    //                 $set: update
-    //             }, { new: true },
-    //             (err, data) => {
-    //                 if (err || !data) {
-    //                     return res.send({
-    //                         success: false,
-    //                         message: "Tags Deletion failed..!"
-    //                     })
-    //                 }
-    //                 return res.send({
-    //                     success: true,
-    //                     message: "Tags Deleted successfully"
-    //                 })
-    //             });
-    //     })
-    // }
-
 }

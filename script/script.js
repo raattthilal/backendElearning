@@ -35,7 +35,8 @@ console.log("admin created");
 const SettingAdmin = new Settings({
     feesAmount:100,
     passPercentage:60,
-    questionTimer:30
+    questionTimer:30,
+    questionCount:10
 })
 SettingAdmin.save();
 

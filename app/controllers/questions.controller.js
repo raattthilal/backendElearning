@@ -58,8 +58,10 @@ module.exports = {
         }
         const settingsData = await Settings.find({ "status": "1" });
         let questionTimer=60;
+        let questionCount = 10;
         if(settingsData.length){
             questionTimer = settingsData[0].questionTimer;
+            questionCount = settingsData[0].questionCount;
         }
         await Questions.find(findObj).sort(sortObj).exec( (err, data) => {
 
@@ -83,8 +85,12 @@ module.exports = {
                 }
                 responseData.push(resData);
             }
+            
+            const shuffledQuestions = responseData.sort(() => Math.random() - 0.5);
+            shuffledQuestions.slice(0, questionCount);
+              
             let result = {
-                data: responseData,
+                data: shuffledQuestions,
                 timer:questionTimer,
                 success: true
             }

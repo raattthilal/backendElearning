@@ -19,6 +19,7 @@ const SetingsSchema = mongoose.Schema({
     feesAmount: Number,
     passPercentage: Number,
     questionTimer:Number,
+    questionCount:Number,
     created_at : {
         type: Date,
         default:Date.now()
