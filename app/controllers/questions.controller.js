@@ -59,7 +59,7 @@ module.exports = {
         const settingsData = await Settings.find({ "status": "1" });
         let questionTimer=60;
         if(settingsData.length){
-            passPercentage = settingsData[0].questionTimer;
+            questionTimer = settingsData[0].questionTimer;
         }
         await Questions.find(findObj).sort(sortObj).exec( (err, data) => {
 
