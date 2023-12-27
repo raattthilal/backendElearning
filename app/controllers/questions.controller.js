@@ -58,7 +58,7 @@ module.exports = {
         }
         const settingsData = await Settings.find({ "status": "1" });
         let questionTimer=60;
-        let questionCount = 10;
+        let questionCount;
         if(settingsData.length){
             questionTimer = settingsData[0].questionTimer;
             questionCount = settingsData[0].questionCount;
@@ -72,7 +72,7 @@ module.exports = {
                     error: err ? err : "No active Question in db"
                 })
             }
-            let responseData = [];
+            let filteredData = [];
             for (let i = 0; i < data.length; i++) {
                 let resData = {
                     id: data[i].id,
@@ -83,14 +83,16 @@ module.exports = {
                     options_4: data[i].options_4,
                     
                 }
-                responseData.push(resData);
+                filteredData.push(resData);
             }
             
-            const shuffledQuestions = responseData.sort(() => Math.random() - 0.5);
-            shuffledQuestions.slice(0, questionCount);
-              
+            let selectedQuestions = [];
+            const shuffledQuestions = filteredData.sort(() => Math.random() - 0.5);
+            selectedQuestions.push(...shuffledQuestions.slice(0, questionCount));
+            
             let result = {
-                data: shuffledQuestions,
+                count: selectedQuestions.length,
+                data: selectedQuestions,
                 timer:questionTimer,
                 success: true
             }
