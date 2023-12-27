@@ -12,6 +12,8 @@ module.exports = {
         }
         const feesAmount = req.body.feesAmount;
         const passPercentage = req.body.passPercentage;
+        const questionTimer = req.body.questionTimer;
+
         if (!feesAmount || !passPercentage) {
             res.send({
                 success: false,
@@ -19,8 +21,9 @@ module.exports = {
             })
         }
         const newSettings = new Settings({
-            feesAmount:req.body.feesAmount,
-            passPercentage: req.body.passPercentage,
+            feesAmount: feesAmount,
+            passPercentage: passPercentage,
+            questionTimer: questionTimer
         })
         Settings.create(newSettings, (err, data) => {
             if (err) {
@@ -66,7 +69,7 @@ module.exports = {
             }) 
         }
         let params = req.body;
-        if (!params.feesAmount || !params.passPercentage) {
+        if (!params.feesAmount || !params.passPercentage || !params.questionTimer) {
             return res.send({
                 success: false,
                 message: "Nothing to update"
