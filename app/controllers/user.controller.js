@@ -1,5 +1,6 @@
 const User = require('../models/users.model');
 const nodemailer = require('nodemailer');
+const Settings = require('../models/settings.model');
 
 // Create a transporter object using SMTP
 const transporter = nodemailer.createTransport({
@@ -130,6 +131,7 @@ module.exports = {
     //Update User
     updateUser: async (req, res, next) => {
         let id = req.params.id;
+        let rupees=100;
         if (!id) {
             return res.send({
                 success: false,
@@ -166,8 +168,12 @@ module.exports = {
         if (params.paymentId) {
             update.paymentId = params.paymentId;
             update.paymentStatus = "PAID"
+        
+            const settingsData = await Settings.find({ "status": "1" });
+            if(settingsData.length){
+                rupees = settingsData[0].feesAmount;
+            }
         }
-
         await User.find({ "_id": id, "status": true }, async (err, data) => {
             if (err || data.length == 0) {
                 return res.send({
@@ -193,7 +199,7 @@ module.exports = {
                             from: 'info.englearn360@gmail.com',
                             to: data[0].email,
                             subject: `Let's Talk English Payment Successfull`,
-                            text: `Hello ${data[0].firstName}, Your payment of Rupees 100/- has been received. Welcome to Let's Talk English e-learning platform, Thank you!`
+                            text: `Hello ${data[0].firstName}, Your payment of Rupees ${rupees}/- has been received. Welcome to Let's Talk English e-learning platform, Thank you!`
                         };
                         // Send the email
                         transporter.sendMail(mailOptions, (error, info) => {
