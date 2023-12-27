@@ -1,5 +1,5 @@
 const Questions = require('../models/questions.model');
-
+const Settings = require('../models/settings.model');
 module.exports = {
     //Create new Question
     createQuestion: (req, res, next) => {
@@ -56,7 +56,11 @@ module.exports = {
         let findObj={
             status: true 
         }
-        
+        const settingsData = await Settings.find({ "status": "1" });
+        let questionTimer=60;
+        if(settingsData.length){
+            passPercentage = settingsData[0].questionTimer;
+        }
         await Questions.find(findObj).sort(sortObj).exec( (err, data) => {
 
             if (err || data.length == 0) {
@@ -81,6 +85,7 @@ module.exports = {
             }
             let result = {
                 data: responseData,
+                timer:questionTimer
                 success: true
             }
             res.send(result);
