@@ -1,7 +1,7 @@
 const User = require('../models/users.model');
 const nodemailer = require('nodemailer');
 const Settings = require('../models/settings.model');
-
+const bcrypt = require('bcryptjs');
 // Create a transporter object using SMTP
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -131,7 +131,7 @@ module.exports = {
     //Update User
     updateUser: async (req, res, next) => {
         let id = req.params.id;
-        let rupees=100;
+        let rupees = 100;
         if (!id) {
             return res.send({
                 success: false,
@@ -168,9 +168,9 @@ module.exports = {
         if (params.paymentId) {
             update.paymentId = params.paymentId;
             update.paymentStatus = "PAID"
-        
+
             const settingsData = await Settings.find({ "status": "1" });
-            if(settingsData.length){
+            if (settingsData.length) {
                 rupees = settingsData[0].feesAmount;
             }
         }
@@ -188,7 +188,7 @@ module.exports = {
                 }, { new: true },
                 (err, updateData) => {
                     if (err || !updateData) {
-                        return res.send({   
+                        return res.send({
                             success: false,
                             message: "User Updation failed..!"
                         })
@@ -247,6 +247,81 @@ module.exports = {
                     })
                 });
         })
+    },
+    //reset password
+    resetPassword: async (req, res, next) => {
+        const oldPassword = req.body.oldPassword;
+        const newPassword = req.body.newPassword;
+        const userId = req.params.id;
+        let update = {};
+        if (!oldPassword || !newPassword) {
+            if (!oldPassword) {
+                res.send({
+                    success: false,
+                    message: 'old Password is Empty..!'
+                })
+            }
+            if (!newPassword) {
+                res.send({
+                    success: false,
+                    message: 'New Password is Empty..!'
+                })
+            }
+            if (!oldPassword && !newPassword) {
+                res.send({
+                    success: false,
+                    message: 'oldPassword and newPassword is Required..!'
+                })
+            }
+        }
+        //Getting user details
+        User.getUserById(userId, async (err, userData) => {
+
+            if (err || !userData) {
+                return res.send({
+                    success: false,
+                    message: 'User not existed',
+                    error: err
+                })
+            }
+            await User.comparePassword(oldPassword, userData?.password, async (err, isMatch) => {
+                if (isMatch) {
+                    await bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(newPassword, salt, async (err, hash) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            update.password = hash;
+                            //if User Existing
+                            await User.findByIdAndUpdate(userData.id,
+                                {
+                                    $set: update
+                                }, { new: true },
+                                (err, data) => {
+                                    if (err || !data) {
+                                        return res.send({
+                                            success: false,
+                                            message: "Password resetting failed..!"
+                                        })
+                                    }
+
+                                    return res.send({
+                                        success: true,
+                                        message: "User password resetted successfully,Thank you."
+                                    })
+                                });
+                        });
+                    });
+                } else {
+                    return res.send({
+                        success: false,
+                        message: "old is password incorrect."
+                    })
+                }
+            }
+            )
+        })
     }
+
 
 }
