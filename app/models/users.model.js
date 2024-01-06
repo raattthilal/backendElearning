@@ -72,8 +72,8 @@ module.exports.addUser = function (newUser, callback) {
 module.exports.getUserByUsername = function (username, callback) {
     const query = {
             $or: [
-              { 'username': username , status: true },
-              { 'email': username , status: true}
+              { 'username': username , 'status': true },
+              { 'email': username , 'status': true}
             ]
         }
     Users.find(query, callback);

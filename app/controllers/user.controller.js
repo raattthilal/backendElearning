@@ -24,14 +24,14 @@ module.exports = {
         })
         User.getUserByUsername(req.body.email, (err, userData) => {
 
-            if (!err && userData) {
+            if (userData.length != 0) {
                 return res.send({
                     success: false,
                     message: 'User with email id already existed',
                 })
             }
         });
-        
+
         User.addUser(newUser, (err, data) => {
             if (err) {
                 return res.send({
