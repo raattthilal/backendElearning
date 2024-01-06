@@ -39,7 +39,7 @@ module.exports = {
                 //     error: err,
                 //     message: 'Failed to register new user'
                 // });
-                console.log(err);
+                console.log(data.id);
             } else {
                 // Email content
                 const mailOptions = {
