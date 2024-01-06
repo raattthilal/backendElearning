@@ -229,33 +229,26 @@ module.exports = {
     //Delete User
     deleteUser: async (req, res, next) => {
         let id = req.params.id;
-        let update = {
-            status: false
-        }
-        await User.find({ "_id": id, "status": true }, async (err, data) => {
-            if (err || data.length == 0) {
+        await User.findOneAndDelete({ "_id": id }, (err, deletedUser) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    error:err,
+                    message: "User Deletion failed..!"
+                })
+            } else if (deletedUser) {
+                console.log('User deleted successfully:', deletedUser);
+                return res.send({
+                    success: true,
+                    message: "User Deleted successfully"
+                })
+            } else {
                 return res.send({
                     success: false,
                     message: "User Not founded with this userId"
                 })
             }
-            await User.findByIdAndUpdate(id,
-                {
-                    $set: update
-                }, { new: true },
-                (err, data) => {
-                    if (err || !data) {
-                        return res.send({
-                            success: false,
-                            message: "User Deletion failed..!"
-                        })
-                    }
-                    return res.send({
-                        success: true,
-                        message: "User Deleted successfully"
-                    })
-                });
-        })
+        });
     },
     //reset password
     resetPassword: async (req, res, next) => {
