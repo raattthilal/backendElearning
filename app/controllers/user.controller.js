@@ -237,7 +237,6 @@ module.exports = {
                     message: "User Deletion failed..!"
                 })
             } else if (deletedUser) {
-                console.log('User deleted successfully:', deletedUser);
                 return res.send({
                     success: true,
                     message: "User Deleted successfully"
