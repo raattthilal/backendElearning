@@ -33,7 +33,7 @@ module.exports = {
         });
 
         User.addUser(newUser, (err, data) => {
-            if (err) {
+            if (err && !data.id) {
                 return res.send({
                     success: false,
                     error: err,
