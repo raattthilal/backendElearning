@@ -20,7 +20,7 @@ const UserSchema = mongoose.Schema({
 
     password: { type: String },
 
-    phone:  { type: Number, unique: true },
+    phone:  { type: Number },
 
     firstName: String,
 
@@ -72,8 +72,8 @@ module.exports.addUser = function (newUser, callback) {
 module.exports.getUserByUsername = function (username, callback) {
     const query = {
             $or: [
-              { 'username': username },
-              { 'email': username }
+              { 'username': username , status: true },
+              { 'email': username , status: true}
             ]
         }
     Users.find(query, callback);

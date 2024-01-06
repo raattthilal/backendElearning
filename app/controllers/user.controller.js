@@ -22,7 +22,16 @@ module.exports = {
             phone: req.body.phone,
             password: req.body.password,
         })
+        User.getUserByUsername(req.body.email, (err, userData) => {
 
+            if (!err && userData) {
+                return res.send({
+                    success: false,
+                    message: 'User with email id already existed',
+                })
+            }
+        });
+        
         User.addUser(newUser, (err, data) => {
             if (err) {
                 return res.send({
