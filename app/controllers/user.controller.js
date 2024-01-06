@@ -34,12 +34,11 @@ module.exports = {
 
         User.addUser(newUser, (err, data) => {
             if (err) {
-                // return res.send({
-                //     success: false,
-                //     error: err,
-                //     message: 'Failed to register new user'
-                // });
-                console.log(data.id);
+                return res.send({
+                    success: false,
+                    error: err,
+                    message: 'Failed to register new user'
+                });
             } else {
                 // Email content
                 const mailOptions = {
