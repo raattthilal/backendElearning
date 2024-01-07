@@ -30,7 +30,7 @@ module.exports = {
                 points++;
             }
         }
-        let percentage = (points/QuestionsArr.length)*100;
+        let percentage = (points/totalQuest)*100;
 
         percentage >= passPercentage ? pass="PASS" : pass="FAILED" ;
         }catch(err){
