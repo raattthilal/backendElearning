@@ -32,12 +32,12 @@ const UserAdmin = new User({
 UserAdmin.save();
 console.log("admin created");
 
-// const SettingAdmin = new Settings({
-//     feesAmount:100,
-//     passPercentage:60,
-//     questionTimer:30,
-//     questionCount:10
-// })
-// SettingAdmin.save();
+const SettingAdmin = new Settings({
+    feesAmount:100,
+    passPercentage:60,
+    questionTimer:30,
+    questionCount:10
+})
+SettingAdmin.save();
 
-// console.log("settings created");
+console.log("settings created");
