@@ -73,9 +73,9 @@ module.exports = {
             }
 
             // Read SSL/TLS certificates
-            const privateKey = fs.readFileSync('www.letstalkenglish.co.in/privkey.pem', 'utf8');
-            const certificate = fs.readFileSync('www.letstalkenglish.co.in/fullchain.pem;', 'utf8');
-            const ca = fs.readFileSync('www.letstalkenglish.com/chain.pem', 'utf8');
+            const privateKey = fs.readFileSync('./privkey.pem', 'utf8');
+            const certificate = fs.readFileSync('./fullchain.pem;', 'utf8');
+            const ca = fs.readFileSync('./chain.pem', 'utf8');
 
             const credentials = { key: privateKey, cert: certificate, ca: ca };
 
